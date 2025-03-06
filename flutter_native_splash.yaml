@@ -1,0 +1,7 @@
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/pet_care.png
+
+  android_12:
+    image: assets/images/pet_care.png
+    color: "#FFFFFF"
