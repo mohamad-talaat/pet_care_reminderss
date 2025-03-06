@@ -76,11 +76,11 @@ Responsive Screens
   
  
 
-_# 📸 Screenshots
+# 📸 Screenshots
 _________________________
              
 | <img src="pet_care_reminderss/ss/1.png" width="300">  | <img src="pet_care_reminderss/ss/2.png" width="300">  |
-| <img src="pet_care_reminders/ss/3.png" width="300">  | <img src="pet_care_reminderss/ss/1.png" width="300">  |
+| <img src="pet_care_reminderss/ss/3.png" width="300">  | <img src="pet_care_reminderss/ss/1.png" width="300">  |
 | <img src="pet_care_reminders/ss/5.png" width="300">  | <img src="pet_care_reminders/ss/5.5.png" width="300">  |
 | <img src="pet_care_reminders/ss/6.png" width="300">  | <img src="pet_care_reminders/ss/7.png" width="300">  |
 | <img src="pet_care_reminders/ss/8.png" width="300">  | <img src="pet_care_reminders/ss/9.png" width="300"> |
