@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/53b31cdd-dab8-4ec7-9108-be52db187410
 
 <center>
     <video width="600" controls>
-      <source src="pet_care_reminderss/ss/demo.mp4" type="video/mp4">
+      <source src="ss/demo.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
  </center>
@@ -79,12 +79,12 @@ Responsive Screens
 # 📸 Screenshots
 _________________________
              
-| <img src="pet_care_reminderss/ss/1.png" width="300">  | <img src="pet_care_reminderss/ss/2.png" width="300">  |
-| <img src="pet_care_reminderss/ss/3.png" width="300">  | <img src="pet_care_reminderss/ss/1.png" width="300">  |
-| <img src="pet_care_reminders/ss/5.png" width="300">  | <img src="pet_care_reminders/ss/5.5.png" width="300">  |
-| <img src="pet_care_reminders/ss/6.png" width="300">  | <img src="pet_care_reminders/ss/7.png" width="300">  |
-| <img src="pet_care_reminders/ss/8.png" width="300">  | <img src="pet_care_reminders/ss/9.png" width="300"> |
-| <img src="pet_care_reminders/ss/11.png" width="300"> | <img src="pet_care_reminders/ss/12.png" width="300"> |
+| <img src="ss/1.png" width="300">  | <img src="ss/2.png" width="300">  |
+| <img src="ss/3.png" width="300">  | <img src="ss/1.png" width="300">  |
+| <img src="ss/5.png" width="300">  | <img src="ss/5.5.png" width="300">  |
+| <img src="ss/6.png" width="300">  | <img src="ss/7.png" width="300">  |
+| <img src="ss/8.png" width="300">  | <img src="ss/9.png" width="300"> |
+| <img src="ss/11.png" width="300"> | <img src="ss/12.png" width="300"> |
  
  
  
