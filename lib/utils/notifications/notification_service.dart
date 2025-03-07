@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:pet_reminder/utils/notifications/notification_helpers.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:pet_reminder/models/task_model.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../views/screens/home_screen.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -15,7 +18,7 @@ class NotificationService {
   NotificationService._internal();
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'pet_reminder_channel',
@@ -28,10 +31,10 @@ class NotificationService {
   );
 
   Future<void> initNotification() async {
+    requestPermissions();
     await _configureLocalTimeZone();
     await _setupNotifications();
-    await requestPermissions();
-      showInstantNotification();
+    showInstantNotification();
   }
 
   Future<void> _configureLocalTimeZone() async {
@@ -62,17 +65,17 @@ class NotificationService {
 
   Future<void> _setupNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
+    DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
 
     const InitializationSettings initializationSettings =
-        InitializationSettings(
+    InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -84,47 +87,60 @@ class NotificationService {
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 
   void _onNotificationTapped(NotificationResponse response) {
     debugPrint('Notification clicked: ${response.payload}');
-    // يمكن إضافة منطق للتنقل إلى شاشة معينة هنا
+    Get.to(const HomeScreen());
   }
-
   Future<void> requestPermissions() async {
-    // إذن الإشعارات
-    var notificationStatus = await Permission.notification.status;
-    debugPrint('Notification permission status: $notificationStatus');
-
-    if (await Permission.notification.isDenied) {
+    if (!await Permission.notification.isGranted) {
       await Permission.notification.request();
     }
 
-    // إذن iOS
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-
-    // إذن المنبهات الدقيقة
-    var alarmStatus = await Permission.scheduleExactAlarm.status;
-    debugPrint('Exact alarm permission status: $alarmStatus');
-
-    if (await Permission.scheduleExactAlarm.isDenied) {
+    if (!await Permission.scheduleExactAlarm.isGranted) {
       await Permission.scheduleExactAlarm.request();
     }
 
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.requestExactAlarmsPermission();
   }
+
+  // Future<void> requestPermissions() async {
+  //   // إذن الإشعارات
+  //   var notificationStatus = await Permission.notification.status;
+  //   debugPrint('Notification permission status: $notificationStatus');
+  //
+  //   if (await Permission.notification.isDenied) {
+  //     await Permission.notification.request();
+  //   }
+  //
+  //   // إذن iOS
+  //   await flutterLocalNotificationsPlugin
+  //       .resolvePlatformSpecificImplementation<
+  //           IOSFlutterLocalNotificationsPlugin>()
+  //       ?.requestPermissions(
+  //         alert: true,
+  //         badge: true,
+  //         sound: true,
+  //       );
+  //
+  //   // إذن المنبهات الدقيقة
+  //   var alarmStatus = await Permission.scheduleExactAlarm.status;
+  //   debugPrint('Exact alarm permission status: $alarmStatus');
+  //
+  //   if (await Permission.scheduleExactAlarm.isDenied) {
+  //     await Permission.scheduleExactAlarm.request();
+  //   }
+  //
+  //   await flutterLocalNotificationsPlugin
+  //       .resolvePlatformSpecificImplementation<
+  //           AndroidFlutterLocalNotificationsPlugin>()
+  //       ?.requestExactAlarmsPermission();
+  // }
 
   /// إرسال notif. فوري للاختبار
   Future<void> showInstantNotification() async {
@@ -153,17 +169,14 @@ class NotificationService {
         notificationDetails,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
+        UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: _getDateTimeComponents(task.repeatType),
       );
 
       debugPrint('Notification scheduled for ${task.id} at $scheduledTime');
-
-      if (task.repeatType == 'custom') {
-        await _scheduleNextOccurrence(task);
-      }
-    } catch (e) {
+    } catch (e, stacktrace) {
       debugPrint('Error scheduling notification: $e');
+      debugPrint(stacktrace.toString());
     }
   }
 
@@ -172,22 +185,12 @@ class NotificationService {
     tz.TZDateTime scheduledDate = tz.TZDateTime.from(dateTime, tz.local);
 
     if (scheduledDate.isBefore(now)) {
-      scheduledDate = tz.TZDateTime(
-        tz.local,
-        now.year,
-        now.month,
-        now.day,
-        scheduledDate.hour,
-        scheduledDate.minute,
-      );
-
-      if (scheduledDate.isBefore(now)) {
-        scheduledDate = scheduledDate.add(const Duration(days: 1));
-      }
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
 
     return scheduledDate;
   }
+
 
   DateTimeComponents? _getDateTimeComponents(String repeatType) {
     switch (repeatType) {

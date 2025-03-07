@@ -11,7 +11,10 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <application android:label="pet_care_reminder" android:name="${applicationName}" android:icon="@mipmap/ic_launcher" android:enableOnBackInvokedCallback="true">
 
-        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" android:exported="false"/>
+        <receiver
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
         <receiver android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" android:exported="false"/>
 

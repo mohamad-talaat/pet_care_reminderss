@@ -24,7 +24,7 @@ class AddTaskController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    taskToEdit = Get.arguments as Task?;
+     taskToEdit = Get.arguments as Task?;
     _initializeValues();
   }
 
@@ -67,7 +67,7 @@ class AddTaskController extends GetxController {
     if (!formKey.currentState!.validate()) return;
 
     try {
-      if (isEditMode.value) {
+      if (isEditMode.value && taskToEdit != null) {
         await _updateTask();
       } else {
         await _addTask();
@@ -88,10 +88,9 @@ class AddTaskController extends GetxController {
       customDays: customDays.value,
       notes: notesController.text.isEmpty ? null : notesController.text,
     );
-    notesController.dispose;
-    notesController.clear();
+     notesController.clear();
     await taskController.updateTask(updatedTask);
-    Get.back();
+     Get.offAll(() => const HomeScreen());
     CustomDialog.showSuccessSnackbar(
       title: 'تم بنجاح',
       message: 'تم تحديث التذكير بنجاح!',
@@ -106,9 +105,8 @@ class AddTaskController extends GetxController {
       customDays: customDays.value,
       notes: notesController.text.isEmpty ? null : notesController.text,
     );
-
     await taskController.addTask(task);
-    Get.offAll(() => const HomeScreen());
+     Get.offAll(() => const HomeScreen());
     CustomDialog.showSuccessSnackbar(
       title: 'تم بنجاح',
       message: 'تم حفظ التذكير بنجاح!',

@@ -9,11 +9,15 @@ import 'package:pet_reminder/views/widgets/fade_in.dart';
  
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  // Future<void> requestPermissions() async {
+  //   if (await Permission.notification.isDenied) {
+  //     await Permission.notification.request();
+  //   }
+  // }
    final notificationService = NotificationService();
 
    await notificationService.initNotification();
-  await notificationService.requestPermissions();  
+//  await notificationService.requestPermissions();
 
   Get.put(TaskController());
 
