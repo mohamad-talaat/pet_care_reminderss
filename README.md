@@ -2,9 +2,10 @@
 
 # 💰 This App Was Created in one day
 
-<<<<<<< HEAD
+ 
+## Description 
 
-
+pet_care_reminders" application, a project created in one day. It highlights the app's features, including an attractive and responsive UI, and provides a demo video for users to explore its functionality.
 
 
 ## Demo Video
@@ -51,6 +52,10 @@ Firebase
 Notifications
 sqflite
 Responsive Screens
+Flutter Local Notifications 
+Splash Screen 
+Icon Luncher
+
 
 ## Technologies Used
 
